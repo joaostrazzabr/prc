@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRC Empreendimentos | Imóveis em Maringá</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; }
+        
+        :root {
+            --primary-green: #2d5a3d;
+            --light-green: #4a7c59;
+            --accent-green: #6fa86f;
+            --beige: #c9b8a8;
+            --dark-beige: #8b7d6b;
+            --white: #ffffff;
+            --light-gray: #f8f7f5;
+            --dark-gray: #2a2a2a;
+        }
+        
+        .bg-primary-green { background-color: var(--primary-green); }
+        .bg-light-green { background-color: var(--light-green); }
+        .bg-accent-green { background-color: var(--accent-green); }
+        .bg-beige { background-color: var(--beige); }
+        .text-primary-green { color: var(--primary-green); }
+        .text-beige { color: var(--beige); }
+        .text-dark-beige { color: var(--dark-beige); }
+        .border-beige { border-color: var(--beige); }
+        
+        body { background-color: var(--light-gray); color: var(--dark-gray); }
+        
+        /* Header Styles */
+        header { background-color: var(--primary-green); box-shadow: 0 2px 20px rgba(45, 90, 61, 0.2); border-bottom: 1px solid #1a3a26; }
+        
+        .nav-link {
+            position: relative;
+            color: var(--white);
+            font-weight: 500;
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -6px;
+            left: 0;
+            background-color: var(--beige);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--beige);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero-overlay {
+            display: none;
+        }
+        
+        .hero-banner {
+            background-color: var(--primary-green);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            background: var(--white);
+            border-radius: 12px;
+            padding: 32px 24px;
+            max-width: 900px;
+            box-shadow: 0 8px 32px rgba(45, 90, 61, 0.15);
+        }
+        
+        .hero-content h1 {
+            color: var(--primary-green);
+        }
+        
+        .hero-content p {
+            color: var(--dark-beige);
+        }
+        
+        .hero-content h1 {
+            font-size: 3.6rem;
+        }
+        
+        @media (min-width: 768px) {
+            .hero-content h1 {
+                font-size: 4.32rem;
+            }
+        }
+        
+        .hero-content .btn-secondary {
+            border-color: var(--primary-green);
+            color: var(--primary-green);
+            background-color: transparent;
+        }
+        
+        .hero-content .btn-secondary:hover {
+            background-color: var(--primary-green);
+            color: var(--white);
+            border-color: var(--primary-green);
+        }
+        
+        @media (min-width: 768px) {
+            .hero-content {
+                padding: 48px 40px;
+            }
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background-color: var(--beige);
+            color: var(--primary-green);
+            padding: 14px 32px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            border: 2px solid var(--beige);
+        }
+        
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--beige);
+        }
+        
+        .btn-secondary {
+            border: 2px solid var(--white);
+            color: var(--white);
+            padding: 14px 32px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--beige);
+            color: var(--primary-green);
+            border-color: var(--beige);
+        }
+        
+        /* Property Cards */
+        .property-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(45, 90, 61, 0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(45, 90, 61, 0.2);
+        }
+        
+        .property-card img {
+            transition: transform 0.5s ease;
+        }
+        
+        .property-card:hover img {
+            transform: scale(1.08);
+        }
+        
+        .badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background-color: var(--beige);
+            color: var(--primary-green);
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border-radius: 3px;
+        }
+        
+        .badge.active {
+            background-color: var(--accent-green);
+            color: var(--white);
+        }
+        
+        .badge.ready {
+            background-color: var(--primary-green);
+            color: var(--white);
+        }
+        
+        /* Section Titles */
+        .section-label {
+            color: var(--beige);
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        
+        .section-title {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+        
+        /* Stats */
+        .stat-box {
+            text-align: center;
+            padding: 24px;
+            border-bottom: 3px solid var(--beige);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-box:hover {
+            border-bottom-color: var(--accent-green);
+        }
+        
+        .stat-number {
+            color: var(--beige);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: var(--dark-beige);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        
+        /* About Section */
+        .about-image {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(45, 90, 61, 0.15);
+        }
+        
+        .about-image img {
+            transition: all 0.5s ease;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+        
+        /* Features */
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .feature-icon {
+            color: var(--beige);
+            font-size: 1.25rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        
+        .feature-text {
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--dark-gray);
+        }
+        
+        /* Team Section */
+        .team-member {
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .team-member img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid var(--beige);
+            object-fit: cover;
+            margin: 0 auto 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .team-member:hover img {
+            border-color: var(--accent-green);
+            transform: scale(1.05);
+        }
+        
+        .team-member h4 {
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+        
+        .team-member .role {
+            color: var(--beige);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        
+        /* Blog Section */
+        .blog-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(45, 90, 61, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .blog-card:hover {
+            box-shadow: 0 8px 30px rgba(45, 90, 61, 0.15);
+        }
+        
+        .blog-image {
+            height: 240px;
+            overflow: hidden;
+        }
+        
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .blog-card:hover .blog-image img {
+            transform: scale(1.08);
+        }
+        
+        .blog-content {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .blog-category {
+            color: var(--beige);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        
+        .blog-title {
+            color: var(--primary-green);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            transition: color 0.3s ease;
+        }
+        
+        .blog-card:hover .blog-title {
+            color: var(--beige);
+        }
+        
+        .blog-excerpt {
+            color: var(--dark-beige);
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            flex-grow: 1;
+        }
+        
+        .blog-link {
+            color: var(--primary-green);
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--beige);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .blog-link:hover {
+            color: var(--beige);
+            border-bottom-color: var(--primary-green);
+        }
+        
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 50px rgba(45, 90, 61, 0.15);
+        }
+        
+        .contact-info {
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .contact-info h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+        
+        .contact-info p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            font-weight: 300;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .contact-item i {
+            color: var(--beige);
+            font-size: 1.25rem;
+            width: 24px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+            font-size: 1.5rem;
+        }
+        
+        .social-links a {
+            color: var(--beige);
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+        
+        .contact-form {
+            background-color: var(--white);
+            padding: 48px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--dark-beige);
+            margin-bottom: 8px;
+        }
+        
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            border: none;
+            border-bottom: 2px solid var(--beige);
+            padding: 12px 0;
+            font-size: 0.95rem;
+            color: var(--dark-gray);
+            background-color: transparent;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-bottom-color: var(--primary-green);
+            box-shadow: 0 2px 0 var(--beige);
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--white);
+            border-top: 1px solid var(--beige);
+            padding: 32px 0;
+        }
+        
+        /* Responsive - Mobile First */
+        @media (max-width: 640px) {
+            .section-title { font-size: 1.5rem; }
+            .contact-container { grid-template-columns: 1fr; }
+            .contact-info, .contact-form { padding: 24px; }
+            .stat-box { padding: 16px; }
+            .stat-number { font-size: 1.75rem; }
+            .team-member img { width: 100px; height: 100px; }
+            .blog-image { height: 200px; }
+        }
+        
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .section-title { font-size: 2rem; }
+            .contact-container { grid-template-columns: 1fr; }
+            .contact-info, .contact-form { padding: 32px; }
+        }
+        
+        @media (min-width: 1025px) {
+            .section-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="fixed w-full z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center max-w-7xl">
+            <a href="#" class="flex items-center">
+                <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/logo-prc-topo-214w.png" alt="PRC Logo" class="h-12">
+            </a>
+            <nav class="hidden md:flex space-x-10">
+                <a href="#home" class="nav-link">Início</a>
+                <a href="#empreendimentos" class="nav-link">Empreendimentos</a>
+                <a href="#sobre" class="nav-link">Sobre Nós</a>
+                <a href="#blog" class="nav-link">Blog</a>
+                <a href="#contato" class="nav-link">Contato</a>
+            </nav>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-primary-green text-2xl"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden pt-20 hero-banner">
+        <div class="absolute inset-0 z-0">
+            <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/Nest-635-1920w.jpg" alt="Empreendimento" class="w-full h-full object-cover">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+        <div class="relative z-10 text-center px-6 hero-content">
+            <h1 class="font-bold mb-6 leading-tight">Arquitetura que Transforma Vidas</h1>
+            <p class="text-lg md:text-xl mb-10 font-light leading-relaxed">Empreendimentos de excelência em Maringá, onde cada projeto reflete nosso compromisso com qualidade, inovação e sustentabilidade.</p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="#empreendimentos" class="btn-primary">Explorar Projetos</a>
+                <a href="#contato" class="btn-secondary">Agende uma Visita</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20 bg-white border-b border-beige">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="stat-box">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Anos de Excelência</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Famílias Felizes</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Projetos Entregues</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Satisfação Garantida</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Empreendimentos -->
+    <section id="empreendimentos" class="py-24 bg-light-gray">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="mb-16">
+                <p class="section-label">Nosso Portfólio</p>
+                <h2 class="section-title">Empreendimentos Destacados</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Palm 786 -->
+                <div class="property-card">
+                    <div class="relative overflow-hidden h-72">
+                        <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/fachada+atualizada-1920w.jpg" alt="Palm 786" class="w-full h-full object-cover">
+                        <div class="badge">Lançamento</div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-primary-green mb-3 uppercase">Palm 786</h4>
+                        <p class="text-dark-beige text-sm mb-6 leading-relaxed">Residências sofisticadas com design contemporâneo, localizado na melhor região de Maringá.</p>
+                        <a href="#" class="blog-link">Saiba Mais</a>
+                    </div>
+                </div>
+
+                <!-- Nest 635 -->
+                <div class="property-card">
+                    <div class="relative overflow-hidden h-72">
+                        <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/Nest-635-1920w.jpg" alt="Nest 635" class="w-full h-full object-cover">
+                        <div class="badge active">Em Obras</div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-primary-green mb-3 uppercase">Nest 635</h4>
+                        <p class="text-dark-beige text-sm mb-6 leading-relaxed">Casas verticais inovadoras que redefinem o conceito de morar bem com exclusividade.</p>
+                        <a href="#" class="blog-link">Saiba Mais</a>
+                    </div>
+                </div>
+
+                <!-- Cidade Aruna -->
+                <div class="property-card">
+                    <div class="relative overflow-hidden h-72">
+                        <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/Imagens-01-1920w.png" alt="Cidade Aruna" class="w-full h-full object-cover">
+                        <div class="badge ready">Pronto para Morar</div>
+                    </div>
+                    <div class="p-8">
+                        <h4 class="text-xl font-bold text-primary-green mb-3 uppercase">Cidade Aruna</h4>
+                        <p class="text-dark-beige text-sm mb-6 leading-relaxed">Um novo bairro planejado que integra natureza, urbanismo e sustentabilidade.</p>
+                        <a href="#" class="blog-link">Saiba Mais</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre Nós -->
+    <section id="sobre" class="py-24 bg-white">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="about-image">
+                    <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/Banner_Site_02-badceaa9-2304w.jpg" alt="Sobre PRC">
+                </div>
+                <div>
+                    <p class="section-label">Quem Somos</p>
+                    <h2 class="section-title mb-8">PRC Empreendimentos</h2>
+                    <p class="text-dark-beige leading-relaxed mb-6">
+                        A PRC Empreendimentos é sinônimo de qualidade, inovação e compromisso com a excelência. Há mais de uma década, transformamos o cenário urbano de Maringá através de projetos que combinam arquitetura de classe mundial com sustentabilidade.
+                    </p>
+                    <p class="text-dark-beige leading-relaxed mb-10">
+                        Cada empreendimento é uma obra de arte, onde cada detalhe é cuidadosamente pensado para proporcionar a melhor experiência de vida aos nossos clientes.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span class="feature-text">Arquitetura Autoral e Inovadora</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span class="feature-text">Compromisso com Sustentabilidade</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span class="feature-text">Construção de Alto Padrão</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span class="feature-text">Localizações Premium em Maringá</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-24 bg-primary-green">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="text-center mb-16">
+                <p class="section-label">Excelência em Pessoas</p>
+                <h2 class="text-white text-4xl font-bold uppercase">Nossa Equipe de Especialistas</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="team-member">
+                    <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/joao-0396bb58-108w.png" alt="João Silva">
+                    <h4>João Silva</h4>
+                    <p class="role">Diretor Executivo</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/daianne-1920w-108w.png" alt="Daianne Santos">
+                    <h4>Daianne Santos</h4>
+                    <p class="role">Gerente de Vendas</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/WhatsApp-Image-2024-06-03-at-13.11.54-119w.jpeg" alt="Ricardo Mendes">
+                    <h4>Ricardo Mendes</h4>
+                    <p class="role">Engenheiro Chefe</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/Captura-de-Tela-2024-05-17-a-C3-8C-s-14.02.15-1920w-119w.png" alt="Mariana Costa">
+                    <h4>Mariana Costa</h4>
+                    <p class="role">Arquiteta Sênior</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-24 bg-light-gray">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="text-center mb-16">
+                <p class="section-label">Conhecimento e Inspiração</p>
+                <h2 class="section-title">Blog e Novidades</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/Banner_Site_Office+%281%29-2304w.png" alt="Blog">
+                    </div>
+                    <div class="blog-content">
+                        <p class="blog-category">Tendências Urbanas</p>
+                        <h3 class="blog-title">Cidade Aruna: O Novo Conceito de Desenvolvimento Urbano</h3>
+                        <p class="blog-excerpt">Descubra como o novo bairro planejado está revolucionando a forma de viver em Maringá, integrando natureza, tecnologia e sustentabilidade.</p>
+                        <a href="#" class="blog-link">Ler Artigo Completo</a>
+                    </div>
+                </div>
+                
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/ALM_bannersiteprc_lancamento_1350x557+%281%29-2304w.png" alt="Blog">
+                    </div>
+                    <div class="blog-content">
+                        <p class="blog-category">Lançamentos</p>
+                        <h3 class="blog-title">Almai Cidade Aruna: Luxo e Sofisticação em Novo Patamar</h3>
+                        <p class="blog-excerpt">Conheça os detalhes do lançamento mais aguardado do ano, com arquitetura de classe mundial e acabamento impecável.</p>
+                        <a href="#" class="blog-link">Ler Artigo Completo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contato" class="py-24 bg-light-gray">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div>
+                        <h3>Vamos Conversar?</h3>
+                        <p>Estamos prontos para ajudar você a encontrar o imóvel dos seus sonhos ou tirar qualquer dúvida sobre nossos projetos.</p>
+                    </div>
+                    
+                    <div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>(44) 3025-1010</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contato@prcempreendimentos.com.br</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Av. Nóbrega, 786 - Zona 04, Maringá - PR</span>
+                        </div>
+                        
+                        <div class="social-links">
+                            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form class="space-y-6">
+                        <div class="form-group">
+                            <label class="form-label">Nome Completo</label>
+                            <input type="text" class="form-input" placeholder="Seu nome completo">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">E-mail</label>
+                            <input type="email" class="form-input" placeholder="seu@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Telefone</label>
+                            <input type="tel" class="form-input" placeholder="(00) 00000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mensagem</label>
+                            <textarea class="form-textarea" placeholder="Como podemos ajudar?"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full">Enviar Mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container mx-auto px-6 max-w-7xl py-12 flex flex-col md:flex-row justify-between items-center gap-8">
+            <img src="https://lirp.cdn-website.com/85f70734/dms3rep/multi/opt/logo-prc-topo-214w.png" alt="PRC Logo" class="h-10 opacity-60">
+            <p class="text-dark-beige text-xs uppercase tracking-widest">© 2026 PRC Empreendimentos. Todos os direitos reservados.</p>
+            <a href="#" class="text-dark-beige hover:text-primary-green text-xs font-semibold uppercase transition">Política de Privacidade</a>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const nav = document.querySelector('nav');
+        
+        menuBtn.addEventListener('click', () => {
+            nav.classList.toggle('hidden');
+            nav.classList.toggle('flex');
+            nav.classList.toggle('flex-col');
+            nav.classList.toggle('absolute');
+            nav.classList.toggle('top-20');
+            nav.classList.toggle('left-0');
+            nav.classList.toggle('w-full');
+            nav.classList.toggle('bg-white');
+            nav.classList.toggle('p-6');
+            nav.classList.toggle('shadow-lg');
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    nav.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
